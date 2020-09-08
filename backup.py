@@ -3,11 +3,16 @@ import subprocess
 import sys
 import os
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
 	print("Sorry! 1 argument required.")
 	sys.exit(1)
 
 task = sys.argv[1]
+
+try:
+	recovery_path = sys.argv[2]
+except:
+	recovery_path = None
 
 if task != 'backup' and task != 'recover':
 	print("Invalid operation. Only 'backup' or 'recover' allowed.")
@@ -39,7 +44,10 @@ def start_operation():
 				rclone_output = subprocess.run(["rclone", "copy", "--progress", local_path, remote_name+":"+remote_path], stdout=sys.stdout, stderr=subprocess.STDOUT)
 			elif task == 'recover':
 				print("Recovering: "+local_path)
-				dest_path = os.path.sep.join(temp_path)
+				if recovery_path is None:
+					dest_path = os.path.sep.join(temp_path)
+				else:
+					dest_path = recovery_path
 				if local_path.endswith(os.path.sep): # if dir
 					dest_path = dest_path + os.path.sep + file_dir_name
 				remote_path = remote_path+"/"+file_dir_name
