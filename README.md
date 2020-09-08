@@ -41,7 +41,7 @@ When you recover, it'll check if the files/directories mentioned in the `backup-
 python3 backup.py recover
 ```
 
-If you want to recover the entire backup to be downloaded into a particular directory:
+If you want the entire backup to be downloaded into a particular directory:
 
 ```bash
 python3 backup.py recover <path to custom dir>
